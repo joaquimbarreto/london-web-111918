@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Docoffice</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <h1><%= link_to 'Doctor app', '/doctors'%></h1>
+
+    <% if !logged_in? %>
+      <%= link_to 'login', login_path %>
+      <%= link_to 'signup', '/signup' %>
+    <% else %>
+      <h3> Hello, <%= current_user.name  %> </h3>
+      <%=  link_to "log out", logout_path, method: "post" %>
+      <%= link_to 'my patient record', user_path(current_user.id) %>
+    <% end %>
+
+    <% if flash[:errors] %>
+      <ul>
+        <% flash[:errors].each do |e| %>
+          <li style="color: red;">
+            <%= e %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if flash[:authorized] %>
+      <p style="color: red;">
+        <%= flash[:authorized] %>
+      </p>
+    <% end %>
+
+    <%= yield %>
+  </body>
+</html>
